@@ -7,6 +7,7 @@ const ALIVE_CELL = "@";
 const ECOSYSTEM = document.getElementsByClassName("ecosystem")[0];
 
 let cells = [];
+let cellsToCheck = new Set();
 
 /**
  * Toggles the current state of the cell, setting it to
@@ -57,11 +58,27 @@ function buildCells() {
             cell.style.width = (ECOSYSTEM.offsetWidth / WIDTH) + "px";
 
             cell.onclick = function() { toggleCellState(cell) };
+            cellsToCheck
 
             row.appendChild(cell);
         }
         ECOSYSTEM.appendChild(row);
     }
 }
+
+/**
+ * Returns the amount of neighbors which are alive, given the
+ * coordinate of a cell on the {@code cells} grid.
+ */
+function getAliveNeighbors(row, col) {
+    for (let i = row - 1; i <= row + 1; i++) {
+        
+    }
+}
+
+function wrapAroundBoard(n) {
+
+}
+
 
 buildCells();
