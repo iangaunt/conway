@@ -1,0 +1,68 @@
+@import url("https://fonts.googleapis.com/css2?family=Victor+Mono:wght@100&display=swap");
+* {
+  background: rgb(12, 16, 25);
+  cursor: default;
+  flex-direction: column;
+  font-family: "Victor Mono", monospace;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+* body {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  overflow: hidden;
+  width: 100vw;
+}
+*::-moz-selection {
+  background: transparent;
+}
+*::selection {
+  background: transparent;
+}
+
+.ecosystem {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  aspect-ratio: 1.7777777778;
+  flex-direction: column;
+  width: 800px;
+}
+.ecosystem div {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+.ecosystem p {
+  transition: color 0.1s;
+}
+.ecosystem p:hover {
+  color: rgb(225, 227, 239);
+}
+.ecosystem .alive {
+  color: rgb(143, 214, 148);
+}
+.ecosystem .dead {
+  color: rgba(255, 255, 255, 0.1);
+}
+
+.buttons {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  padding: 10px;
+  width: 800px;
+}
+.buttons a {
+  color: rgb(225, 227, 239);
+  transition: color 0.3s;
+  width: 264px;
+}
+.buttons a:hover {
+  color: rgb(143, 214, 148);
+}/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Victor+Mono:wght@100&display=swap');
+
+@mixin flex {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+$black: rgb(12, 16, 25);
+$grey: rgb(255 255 255 / 0.1);
+$green: rgb(143, 214, 148);
+
+$white: rgb(225, 227, 239);
+
+* {
+    background: $black;
+    cursor: default;
+    flex-direction: column;
+    font-family: 'Victor Mono', monospace;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+
+    body { 
+        @include flex; 
+        height: 100vh;
+        overflow: hidden;
+        width: 100vw;
+    }
+
+    &::selection {
+        background: transparent;
+    }
+}
+
+.ecosystem {
+    @include flex;
+
+    aspect-ratio: calc(16 / 9);
+    flex-direction: column;
+    width: 800px;
+
+    div {
+        @include flex;
+        flex-direction: row;
+    }
+
+    p {
+        transition: color 0.1s;
+
+        &:hover {
+            color: $white;
+        }
+    }
+
+    .alive { color: $green }
+    .dead { color: $grey }
+}
+
+.buttons {
+    @include flex;
+    flex-direction: row;
+    padding: 10px;
+    width: 800px;
+
+    a {
+        color: $white;
+        transition: color 0.3s;
+        width: calc(0.33 * 800px);
+
+        &:hover {
+            color: $green;
+        }
+    }
+}
