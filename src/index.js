@@ -16,12 +16,16 @@ let cellsToCheck = new Set();
  * @param {HTMLElement} element - The element to toggle.
  */
 function toggleCellState(element) {
+    // let element = cells[row][col];
+    
     if (element.innerHTML === DEAD_CELL) {
+        // cellsToCheck.add({i, j})
         element.innerHTML = ALIVE_CELL;
 
         element.classList.remove("dead");
         element.classList.add("alive");
     } else {
+        cellsToCheck.delete({})
         element.innerHTML = DEAD_CELL;
 
         element.classList.remove("alive");
@@ -58,7 +62,6 @@ function buildCells() {
             cell.style.width = (ECOSYSTEM.offsetWidth / WIDTH) + "px";
 
             cell.onclick = function() { toggleCellState(cell) };
-            cellsToCheck
 
             row.appendChild(cell);
         }
@@ -68,16 +71,12 @@ function buildCells() {
 
 /**
  * Returns the amount of neighbors which are alive, given the
- * coordinate of a cell on the {@code cells} grid.
+ * coordinate of a cell on the cells grid.
  */
 function getAliveNeighbors(row, col) {
     for (let i = row - 1; i <= row + 1; i++) {
         
     }
-}
-
-function wrapAroundBoard(n) {
-
 }
 
 
