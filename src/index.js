@@ -1,14 +1,21 @@
-const WIDTH = 40;
-const HEIGHT = 20;
+// The width and height of the grid displayed.
+const WIDTH = 50;
+const HEIGHT = WIDTH / 2;
 
+// Character constants to store the alive and dead cell icons.
 const DEAD_CELL = "•";
 const ALIVE_CELL = "@";
 
 const ECOSYSTEM = document.getElementsByClassName("ecosystem")[0];
 
+// Contains a 2-d array of size [HEIGHT, WIDTH] where each individual
+// index contains the HTML element of the cell at [i, j].
 let cells = [];
+
+// Stores all active cells to check (alive cells or cells with >=1 neighbor).
 let cellsToCheck = new Set();
 
+// Variables to store the game state.
 let playing = false;
 let runningInterval = null;
 
@@ -19,12 +26,12 @@ let runningInterval = null;
  * @param {HTMLElement} element - The element to toggle.
  */
 function toggleCellState(r, c) {
-    let element = cells[r][c];
+    let element = cells[wrapAround(r, HEIGHT)][wrapAround(c, WIDTH)];
     
     if (element.innerHTML === DEAD_CELL) {
         for (let i = r - 1; i <= r + 1; i++) {
             for (let j = c - 1; j <= c + 1; j++) {
-                cellsToCheck.add(cells[i][j]);
+                cellsToCheck.add(cells[wrapAround(i, HEIGHT)][wrapAround(j, WIDTH)]);
             }
         } 
 
@@ -35,7 +42,9 @@ function toggleCellState(r, c) {
     } else {
         for (let i = r - 1; i <= r + 1; i++) {
             for (let j = c - 1; j <= c + 1; j++) {
-                cellsToCheck.delete(cells[i][j]);
+                if (getAliveNeighbors(wrapAround(i, HEIGHT), wrapAround(j, WIDTH)) == 1) {
+                    cellsToCheck.delete(cells[wrapAround(i, HEIGHT)][wrapAround(j, WIDTH)]);
+                }
             }
         } 
         
@@ -105,6 +114,11 @@ function runGeneration() {
     }
 }
 
+/**
+ * Updates all relevant cells on the board (those which contain at least
+ * one live neighbor) to their new status on the board, and calculates the 
+ * next cells which we will check in the next generation.
+ */
 function nextGeneration() {
     let updatedCells = new Map();
     let updatedCellsToCheck = new Set();
@@ -112,11 +126,6 @@ function nextGeneration() {
     for (let cell of cellsToCheck) {
         let neighbors = getAliveNeighbors(cell.row, cell.col);
 
-        /*
-        Any live cell with two or three live neighbours survives.
-        Any dead cell with three live neighbours becomes a live cell.
-        All other live cells die in the next generation. Similarly, all other dead cells stay dead.
-        */
         updatedCells.set(cell, cell.innerHTML);
         if (cell.innerHTML === ALIVE_CELL) {
             if (neighbors != 2 && neighbors != 3) {
@@ -151,8 +160,12 @@ function nextGeneration() {
 }
 
 /**
- * Returns the amount of neighbors which are alive, given the
- * coordinate of a cell on the cells grid.
+ * Returns the amount of alive neighbors in the 8 cells 
+ * surrounding the cell positioned at row, col.
+ * 
+ * @param {number} row - The row of the cell. 
+ * @param {number} col - The column of the cell.
+ * @returns {number} - The amount of alive neighbors in the 8 surrounding cells.
  */
 function getAliveNeighbors(row, col) {
     let alive = 0;
@@ -162,6 +175,8 @@ function getAliveNeighbors(row, col) {
             if (i == row && j == col) continue;
 
             let cell = cells[wrapAround(i, HEIGHT)][wrapAround(j, WIDTH)];
+            console.log(wrapAround(i, HEIGHT) + " : " + wrapAround(j, WIDTH));
+            
             if (cell.innerHTML === ALIVE_CELL) {
                 alive++;
             }
@@ -172,13 +187,19 @@ function getAliveNeighbors(row, col) {
 }
 
 /**
- * Wraps the number n around the range 0 - upper.
- * @param {*} n 
- * @param {*} upper 
- * @returns 
+ * Wraps the number n around the range 0 - upper, bounding it
+ * inside that range. Mainly used to fetch tiles on the opposite
+ * side of the grid.
+ * 
+ * If n > upper, then it will return the remainder of n / upper.
+ * If n < 0, then it will return the sum of upper and n (essentially substracting).
+ * 
+ * @param {number} n - The value to be wrapped (can be in the domain -infinity to infinity).
+ * @param {number} upper - The upper boundary of the range to wrap.
+ * @returns - The wrapped value n in the range 0 -upper.
  */
 function wrapAround(n, upper) {
-    if (n < 0) return upper + n;
+    if (n < 0) return upper - 1 + n;
     if (n > upper) return n % upper;
 
     return n;

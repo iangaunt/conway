@@ -43,6 +43,7 @@ $white-tns: rgb(225 227 239 / 0.3);
 h1 {
     color: $white;
     font-weight: 100;
+    width: 800px;
 
     span { color: $green }
 }
@@ -60,10 +61,12 @@ h1 {
     }
 
     p {
-        transition: color 0.1s;
+        @include flex;
+        transition: color 0.7s;
 
         &:hover {
             color: $white;
+            transition: color 0.1s;
         }
     }
 
