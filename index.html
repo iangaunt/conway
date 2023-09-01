@@ -8,14 +8,14 @@
     </head>
 
     <body>
-        <h1>Ian's G<span>@</span>me of Life</h1>
+        <h1 class="bordered">Ian's G<span>@</span>me of Life</h1>
 
         <main class="ecosystem"></main>
 
-        <header class="buttons">
+        <header class="bordered buttons">
             <a onclick="buildCells()">> Reset</a>
-            <a>> Next</a>
-            <a>> Play</a>
+            <a onclick="nextGeneration()">> Next</a>
+            <a id="play" onclick="runGeneration()">> Play</a>
         </header>
 
         <script src="./src/index.js"></script>
