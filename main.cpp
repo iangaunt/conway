@@ -83,8 +83,10 @@ int main(int argc, char *argv[]) {
     reset_boards(board, prev);
 
     bool running = true;
+    bool paused = false;
+
     while (running) {
-        update_boards(board, prev);
+        if (!paused) update_boards(board, prev);
         
         SDL_UpdateTexture(texture, nullptr, board, 64 * sizeof(unsigned int));
         SDL_RenderClear(renderer);
@@ -99,15 +101,28 @@ int main(int argc, char *argv[]) {
 
         SDL_Event event;
         if (SDL_PollEvent(&event)) {
-
             switch (event.type) {
+                case SDL_QUIT: {
+                    running = false;
+                    break;
+                }
+
                 case SDL_KEYDOWN: {
-                    
                     switch (event.key.keysym.sym) {
                         case SDLK_r: {
-                            reset_boards(board, prev);
+                            if (!paused) reset_boards(board, prev);
                             break;
                         } 
+
+                        case SDLK_RIGHT: {
+                            if (paused) update_boards(board, prev);
+                            break;
+                        }
+
+                        case SDLK_SPACE: {
+                            paused = !paused;
+                            break;
+                        }
 
                         case SDLK_ESCAPE: {
                             running = false;
